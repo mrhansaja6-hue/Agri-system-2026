@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agri Admin | 2026 Batch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #14a800; --dark: #1d4354; --bg: #fdfdfd; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg); margin: 0; color: var(--dark); overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }
+        
+        /* Navigation */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 12px 50px; background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-weight: 700; font-size: 20px; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--dark); margin-left: 20px; font-size: 13px; font-weight: 500; cursor: pointer; }
+
+        .nav-btn-add { background: var(--primary); color: #fff !important; padding: 10px 18px; border-radius: 6px; font-weight: 600; transition: 0.3s; box-shadow: 0 4px 10px rgba(20, 168, 0, 0.2); border: none; }
+        .nav-btn-add:hover { background: #118a00; transform: translateY(-2px); }
+
+        /* Page System */
+        .page { display: none; padding: 40px 50px; animation: fadeIn 0.4s ease forwards; flex: 1; }
+        .active-page { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Hero Section */
+        .hero-card { background: #fff; padding: 60px; border-radius: 20px; border: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: auto; }
+        .hero-text h1 { font-size: 42px; margin: 0; color: var(--dark); }
+        .btn-view { background: var(--dark); color: #fff; border: none; padding: 14px 30px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 25px; display: inline-block; text-decoration: none; }
+        
+        .btn-attendance { background: #fff; color: var(--primary); border: 2px solid var(--primary); padding: 14px 30px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 25px; margin-left: 15px; }
+        .btn-attendance:hover { background: var(--primary); color: #fff; }
+
+        /* Forms & Cards */
+        .content-card { background: #fff; padding: 40px; border-radius: 15px; border: 1px solid #eee; max-width: 850px; margin: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.03); }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .input-group { display: flex; flex-direction: column; }
+        label { font-size: 11px; font-weight: 700; margin-bottom: 6px; color: #888; text-transform: uppercase; }
+        input, select { padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px; font-family: inherit; }
+
+        /* Table */
+        .table-wrap { background: #fff; border-radius: 15px; border: 1px solid #eee; overflow: hidden; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #f8f9fa; padding: 16px; text-align: left; font-size: 12px; color: #666; }
+        td { padding: 16px; border-bottom: 1px solid #eee; font-size: 14px; }
+        .id-pill { background: #e8f5e9; color: var(--primary); border: 1px solid var(--primary); padding: 5px 12px; border-radius: 6px; font-weight: 700; cursor: pointer; }
+
+        .submit-btn { background: var(--primary); color: #fff; border: none; padding: 16px; border-radius: 8px; font-weight: 700; width: 100%; cursor: pointer; }
+
+        /* Attendance */
+        .att-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid #eee; }
+        .att-btn { padding: 8px 16px; border-radius: 6px; border: 1px solid #ddd; cursor: pointer; font-weight: 600; background: #fff; }
+        .btn-p.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .btn-a.active { background: #ff4d4d; color: white; border-color: #ff4d4d; }
+
+        /* Footer */
+        footer { background: #1d4354; color: white; text-align: center; padding: 20px; font-size: 13px; margin-top: auto; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">🌿 AGRI SECTION</div>
+        <div class="nav-links">
+            <a onclick="showPage('homePage')">Home</a>
+            <a onclick="showPage('aboutPage')">About Us</a>
+            <a onclick="showPage('reviewPage')">Student Review</a>
+            <button class="nav-btn-add" onclick="showPage('addStudentPage')">+ Add Student</button>
+        </div>
+    </nav>
+
+    <div id="homePage" class="page active-page">
+        <div class="hero-card">
+            <div class="hero-text">
+                <h1>AGRICULTURE <br><span style="color: var(--primary);">SECTION</span></h1>
+                <p style="color: #666; font-size: 18px; margin: 15px 0;">2026 1st Batch Management Portal</p>
+                <div style="display: flex;">
+                    <button class="btn-view" onclick="showPage('reviewPage')">VIEW STUDENT REVIEW LIST</button>
+                    <button class="btn-attendance" onclick="showPage('attendancePage')">STUDENT ATTENDANCE</button>
+                </div>
+            </div>
+            <img src="https://img.freepik.com/free-vector/modern-agriculture-concept-illustration_114360-11116.jpg" width="300">
+        </div>
+    </div>
+
+    <div id="aboutPage" class="page">
+        <div class="content-card">
+            <h2 style="color: var(--primary); margin-top: 0;">About Our System</h2>
+            <p>Agri Section Student Management System is a web-based platform designed to manage and organize student information in the Agriculture section efficiently.</p>
+            <p>The platform helps reduce paperwork and manual errors by providing a centralized system to store and access student details anytime using mobile or computer devices.</p>
+            <p style="font-weight: 600;">The main goal of the Agri Section system is to simplify student data management, maintain reliable records, and enhance the overall educational workflow through modern digital technology.</p>
+        </div>
+    </div>
+
+    <div id="addStudentPage" class="page">
+        <div class="content-card">
+            <h2 style="margin-top:0;">Student Registration</h2>
+            <div class="grid-2">
+                <div class="input-group"><label>Full Name</label><input type="text" id="name"></div>
+                <div class="input-group"><label>Town (ගම)</label><input type="text" id="town"></div>
+            </div>
+            <div class="grid-2">
+                <div class="input-group"><label>District</label><input type="text" id="district"></div>
+                <div class="input-group"><label>Address</label><input type="text" id="address"></div>
+            </div>
+            <div class="grid-2">
+                <div class="input-group"><label>Mother's Name</label><input type="text" id="mName"></div>
+                <div class="input-group"><label>Father's Name</label><input type="text" id="fName"></div>
+            </div>
+            <div class="grid-2">
+                <div class="input-group"><label>Birthday</label><input type="date" id="bday"></div>
+                <div class="input-group"><label>Identity No (NIC)</label><input type="text" id="nic"></div>
+            </div>
+            <div class="grid-2">
+                <div class="input-group"><label>Age</label><input type="number" id="age"></div>
+                <div class="input-group">
+                    <label>රැකියාවක් කරනවාද?</label>
+                    <select id="jobStatus">
+                        <option value="නැත">නැත</option>
+                        <option value="ඔවු">ඔවු</option>
+                    </select>
+                </div>
+            </div>
+            <button class="submit-btn" onclick="submitData()">SUBMIT & GENERATE ID</button>
+        </div>
+    </div>
+
+    <div id="reviewPage" class="page">
+        <div style="max-width: 1000px; margin: auto;">
+            <h2>Student Database</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th>ID Code</th><th>Name</th><th>District</th><th>NIC</th><th>Status</th></tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="attendancePage" class="page">
+        <div class="content-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h2 style="margin:0;">Daily Attendance</h2>
+                <input type="date" id="attDate" style="padding: 10px;">
+            </div>
+            <div id="attendanceList" style="border: 1px solid #eee; border-radius: 10px;"></div>
+            <button class="submit-btn" style="margin-top: 30px;" onclick="saveAttendance()">SAVE ATTENDANCE</button>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 Agri Section || All Right Reserved
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            databaseURL: "https://agri-system-8ea74-default-rtdb.asia-southeast1.firebasedatabase.app/"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+            document.getElementById(pageId).style.display = 'block';
+            if(pageId === 'attendancePage') { loadAttendanceList(); }
+        }
+
+        function submitData() {
+            const idCode = "AGRI-" + Math.floor(1000 + Math.random() * 9000);
+            const student = {
+                idCode,
+                name: document.getElementById('name').value,
+                town: document.getElementById('town').value,
+                district: document.getElementById('district').value,
+                address: document.getElementById('address').value,
+                nic: document.getElementById('nic').value
+            };
+            if(!student.name) return alert("නම ඇතුළත් කරන්න!");
+            db.ref('students/' + idCode).set(student);
+            alert("Saved! ID: " + idCode);
+            showPage('reviewPage');
+        }
+
+        db.ref('students').on('value', (snap) => {
+            let rows = "";
+            snap.forEach((child) => {
+                const s = child.val();
+                rows += `<tr><td><span class="id-pill">${s.idCode}</span></td><td><b>${s.name}</b></td><td>${s.district}</td><td>${s.nic}</td><td>Active</td></tr>`;
+            });
+            document.getElementById('tableBody').innerHTML = rows;
+        });
+
+        let currentAtt = {};
+        function loadAttendanceList() {
+            db.ref('students').once('value', (snap) => {
+                let html = ""; let i = 1;
+                snap.forEach(child => {
+                    const s = child.val();
+                    html += `<div class="att-item"><span><b>${i++}.</b> ${s.name}</span><div class="att-btns"><button class="att-btn btn-p" id="p-${s.idCode}" onclick="markAtt('${s.idCode}','P')">P</button><button class="att-btn btn-a" id="a-${s.idCode}" onclick="markAtt('${s.idCode}','A')">A</button></div></div>`;
+                });
+                document.getElementById('attendanceList').innerHTML = html;
+            });
+        }
+
+        function markAtt(id, status) {
+            currentAtt[id] = status;
+            document.getElementById('p-'+id).classList.toggle('active', status==='P');
+            document.getElementById('a-'+id).classList.toggle('active', status==='A');
+        }
+
+        function saveAttendance() {
+            const date = document.getElementById('attDate').value;
+            if(!date) return alert("දිනය තෝරන්න!");
+            db.ref('attendance/' + date).set(currentAtt);
+            alert("Attendance Saved!");
+        }
+    </script>
+</body>
+</html>
