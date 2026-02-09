@@ -28,11 +28,12 @@
         .btn-attendance { background: #fff; color: var(--primary); border: 2px solid var(--primary); padding: 14px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 15px; width: 100%;}
         .btn-attendance:hover { background: var(--primary); color: #fff; }
 
-        /* DASHBOARD STATS STYLES */
         .stats-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
         .stat-box { background: #f8f9fa; padding: 20px; border-radius: 12px; border: 1px solid #eee; text-align: center; }
         .stat-box h3 { margin: 0; font-size: 24px; color: var(--primary); }
         .stat-box p { margin: 5px 0 0; font-size: 12px; font-weight: 600; color: #666; text-transform: uppercase; }
+
+        .dashboard-logo { display: block; margin: 40px auto 0 auto; width: 350px; max-width: 100%; border-radius: 15px; }
 
         .content-card { background: #fff; padding: 40px; border-radius: 15px; border: 1px solid #eee; max-width: 850px; margin: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.03); }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
@@ -64,6 +65,10 @@
         .info-item h4 { margin: 0; color: #888; font-size: 11px; text-transform: uppercase; }
         .info-item p { margin: 5px 0 0; font-weight: 600; font-size: 15px; }
 
+        .wa-btn { background: #25D366; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; }
+        .wa-btn:hover { background: #128C7E; }
+        .del-btn { background: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 11px; }
+
         footer { background: #1d4354; color: white; text-align: center; padding: 20px; font-size: 13px; margin-top: auto; }
     </style>
 </head>
@@ -74,6 +79,7 @@
         <div class="nav-links">
             <a onclick="showPage('homePage')">Home</a>
             <a onclick="showPage('reviewPage')">Students</a>
+            <a onclick="showPage('timetablePage')">Time Table</a>
             <a onclick="showPage('viewAttPage')">Daily Reports</a>
             <a onclick="showPage('summaryPage')">Summary</a>
             <button class="nav-btn-add" onclick="showPage('addStudentPage')">+ Add Student</button>
@@ -85,28 +91,18 @@
             <div class="hero-text">
                 <h1>AGRICULTURE <br><span style="color: var(--primary);">SECTION</span></h1>
                 <p style="color: #666; font-size: 18px; margin: 15px 0;">2026 1st Batch Management Portal</p>
-                
                 <div class="stats-container">
-                    <div class="stat-box">
-                        <h3 id="statTotal">0</h3>
-                        <p>Total Students</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3 id="statToday">0</h3>
-                        <p>Present Today</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3 id="statPercent">0%</h3>
-                        <p>Attendance Avg</p>
-                    </div>
+                    <div class="stat-box"><h3 id="statTotal">0</h3><p>Total Students</p></div>
+                    <div class="stat-box"><h3 id="statToday">0</h3><p>Present Today</p></div>
+                    <div class="stat-box"><h3 id="statPercent">0%</h3><p>Attendance Avg</p></div>
                 </div>
-
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
                     <button class="btn-view" onclick="showPage('reviewPage')">STUDENT LIST</button>
                     <button class="btn-attendance" onclick="showPage('attendancePage')">MARK ATTENDANCE</button>
-                    <button class="btn-view" style="background: #e67e22;" onclick="showPage('viewAttPage')">DAILY REPORTS</button>
+                    <button class="btn-view" style="background: #e67e22;" onclick="showPage('timetablePage')">TIME TABLE</button>
                     <button class="btn-view" style="background: var(--primary);" onclick="showPage('summaryPage')">ATTENDANCE SUMMARY</button>
                 </div>
+                <img src="https://i.ibb.co/PG2hCrhC/1770444268814.png" class="dashboard-logo">
             </div>
             <img src="https://img.freepik.com/free-vector/modern-agriculture-concept-illustration_114360-11116.jpg" width="300">
         </div>
@@ -114,101 +110,94 @@
 
     <div id="addStudentPage" class="page">
         <div class="content-card">
-            <h2 style="margin-top:0;">Student Registration</h2>
+            <h2>Student Registration</h2>
             <div class="grid-2">
-                <div class="input-group"><label>Full Name (සම්පූර්ණ නම)</label><input type="text" id="name"></div>
-                <div class="input-group"><label>Town (ගම)</label><input type="text" id="town"></div>
+                <div class="input-group"><label>Full Name</label><input type="text" id="name"></div>
+                <div class="input-group"><label>WhatsApp Number</label><input type="text" id="whatsapp"></div>
             </div>
             <div class="grid-2">
-                <div class="input-group"><label>Age (වයස)</label><input type="number" id="age"></div>
-                <div class="input-group"><label>Birthday (උපන් දිනය)</label><input type="date" id="birthday"></div>
+                <div class="input-group"><label>Town</label><input type="text" id="town"></div>
+                <div class="input-group"><label>Age</label><input type="number" id="age"></div>
             </div>
             <div class="grid-2">
-                <div class="input-group"><label>District (දිස්ත්‍රික්කය)</label><input type="text" id="district"></div>
-                <div class="input-group"><label>Province (පළාත)</label><input type="text" id="province"></div>
+                <div class="input-group"><label>Birthday</label><input type="date" id="birthday"></div>
+                <div class="input-group"><label>District</label><input type="text" id="district"></div>
             </div>
             <div class="grid-2">
-                <div class="input-group"><label>Address (ලිපිනය)</label><input type="text" id="address"></div>
+                <div class="input-group"><label>Province</label><input type="text" id="province"></div>
+                <div class="input-group"><label>Address</label><input type="text" id="address"></div>
+            </div>
+            <div class="grid-2">
                 <div class="input-group"><label>Identity No (NIC)</label><input type="text" id="nic"></div>
+                <div class="input-group"><label>Mother's Name</label><input type="text" id="motherName"></div>
             </div>
             <div class="grid-2">
-                <div class="input-group"><label>Mother's Name (මවගේ නම)</label><input type="text" id="motherName"></div>
-                <div class="input-group"><label>Father's Name (පියාගේ නම)</label><input type="text" id="fatherName"></div>
+                <div class="input-group"><label>Father's Name</label><input type="text" id="fatherName"></div>
+                <div class="input-group"><label>Doing a Job?</label><select id="isJob"><option value="No">No</option><option value="Yes">Yes</option></select></div>
             </div>
-            <div class="grid-2">
-                <div class="input-group">
-                    <label>Are you doing a Job? (රැකියාවක් කරනවාද?)</label>
-                    <select id="isJob">
-                        <option value="No">No (නැත)</option>
-                        <option value="Yes">Yes (ඔව්)</option>
-                    </select>
+            <div class="grid-2"><div class="input-group"><label>Job Title</label><input type="text" id="jobTitle"></div></div>
+            <button class="submit-btn" onclick="submitData()">SUBMIT & REGISTER</button>
+        </div>
+    </div>
+
+    <div id="timetablePage" class="page">
+        <div style="max-width: 1000px; margin: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>Module Time Table</h2>
+                <button class="nav-btn-add" onclick="toggleAddModule()">+ Add Module</button>
+            </div>
+            <div id="addModuleForm" style="display:none; background:#fff; padding:25px; border-radius:15px; border:1px solid #eee; margin-bottom:25px;">
+                <div class="grid-2">
+                    <div class="input-group"><label>Code</label><input type="text" id="mCode"></div>
+                    <div class="input-group"><label>Name</label><input type="text" id="mName"></div>
                 </div>
-                <div class="input-group"><label>Job Title (රැකියාව - තිබේ නම්)</label><input type="text" id="jobTitle"></div>
+                <div class="grid-2">
+                    <div class="input-group"><label>Theory (Hrs)</label><input type="number" id="mTheory"></div>
+                    <div class="input-group"><label>Practical (Hrs)</label><input type="number" id="mPractical"></div>
+                </div>
+                <button class="submit-btn" onclick="saveModule()">SAVE</button>
             </div>
-            <button class="submit-btn" onclick="submitData()">SUBMIT & REGISTER STUDENT</button>
+            <div class="table-wrap">
+                <table><thead><tr><th>#</th><th>Code</th><th>Module</th><th>Theory</th><th>Practical</th><th>Action</th></tr></thead>
+                <tbody id="timetableBody"></tbody></table>
+            </div>
         </div>
     </div>
 
     <div id="reviewPage" class="page">
         <div style="max-width: 1000px; margin: auto;">
             <h2>Student Database</h2>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr><th>ID Code</th><th>Name</th><th>District</th><th>NIC</th><th>Status</th></tr>
-                    </thead>
-                    <tbody id="tableBody"></tbody>
-                </table>
-            </div>
+            <div class="table-wrap"><table><thead><tr><th>ID</th><th>Name</th><th>District</th><th>NIC</th><th>Status</th></tr></thead><tbody id="tableBody"></tbody></table></div>
         </div>
     </div>
 
     <div id="attendancePage" class="page">
         <div class="content-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
-                <h2 style="margin:0;">Daily Attendance</h2>
-                <input type="date" id="attDate" style="padding: 10px;">
-            </div>
-            <div id="attendanceList" style="border: 1px solid #eee; border-radius: 10px;"></div>
-            <button class="submit-btn" style="margin-top: 30px;" onclick="saveAttendance()">SAVE ATTENDANCE</button>
+            <h2>Mark Attendance</h2>
+            <input type="date" id="attDate" style="margin-bottom:20px">
+            <div id="attendanceList"></div>
+            <button class="submit-btn" style="margin-top:20px" onclick="saveAttendance()">SAVE ATTENDANCE</button>
         </div>
     </div>
 
     <div id="viewAttPage" class="page">
         <div style="max-width: 1000px; margin: auto;">
-            <h2>Daily Attendance Report</h2>
-            <div style="background: #fff; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #eee; display: flex; align-items: center; gap: 15px;">
-                <label style="margin:0;">Select Date:</label>
-                <input type="date" id="reportDate" onchange="fetchReport()" style="max-width: 200px;">
-            </div>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr><th>ID Code</th><th>Student Name</th><th>NIC</th><th>Attendance Status</th></tr>
-                    </thead>
-                    <tbody id="reportTableBody"></tbody>
-                </table>
-            </div>
+            <h2>Daily Reports</h2>
+            <input type="date" id="reportDate" onchange="fetchReport()">
+            <div class="table-wrap"><table><thead><tr><th>ID</th><th>Name</th><th>NIC</th><th>Status</th></tr></thead><tbody id="reportTableBody"></tbody></table></div>
         </div>
     </div>
 
     <div id="summaryPage" class="page">
         <div style="max-width: 1000px; margin: auto;">
-            <h2 style="margin-bottom: 20px;">Overall Attendance Summary</h2>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr><th>Student ID</th><th>Full Name</th><th>Present</th><th>Absent</th><th>Percentage (%)</th></tr>
-                    </thead>
-                    <tbody id="summaryTableBody"></tbody>
-                </table>
-            </div>
+            <h2>Attendance Summary</h2>
+            <div class="table-wrap"><table><thead><tr><th>ID</th><th>Name</th><th>P</th><th>A</th><th>%</th></tr></thead><tbody id="summaryTableBody"></tbody></table></div>
         </div>
     </div>
 
     <div id="profilePage" class="page">
         <div style="max-width: 800px; margin: auto;">
-            <button onclick="showPage('reviewPage')" style="background:none; border:none; color:var(--primary); cursor:pointer; font-weight:600; margin-bottom:15px;">← Back to Database</button>
+            <button onclick="showPage('reviewPage')" style="background:none; border:none; color:var(--primary); cursor:pointer; font-weight:600; margin-bottom:15px;">← Back</button>
             <div id="profileContent"></div>
         </div>
     </div>
@@ -226,170 +215,119 @@
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
             document.getElementById(pageId).style.display = 'block';
+            if(pageId === 'homePage') updateDashboard();
             if(pageId === 'attendancePage') loadAttendanceList();
             if(pageId === 'summaryPage') loadSummary();
-            if(pageId === 'homePage') updateDashboard();
+            if(pageId === 'timetablePage') loadTimetable();
         }
 
-        // --- DASHBOARD CALCULATION ---
         function updateDashboard() {
-            db.ref('students').once('value', (stdSnap) => {
-                const total = stdSnap.numChildren();
+            db.ref('students').once('value', (s) => {
+                const total = s.numChildren();
                 document.getElementById('statTotal').innerText = total;
-
-                // Get today's date in YYYY-MM-DD format
                 const today = new Date().toISOString().split('T')[0];
-                db.ref('attendance/' + today).once('value', (attSnap) => {
-                    let presentCount = 0;
-                    if(attSnap.exists()) {
-                        attSnap.forEach(c => { if(c.val() === 'P') presentCount++; });
-                    }
-                    document.getElementById('statToday').innerText = presentCount;
-                    
-                    const percent = total > 0 ? ((presentCount / total) * 100).toFixed(0) : 0;
-                    document.getElementById('statPercent').innerText = percent + "%";
+                db.ref('attendance/' + today).once('value', (att) => {
+                    let pCount = 0; if(att.exists()) att.forEach(c => { if(c.val()==='P') pCount++; });
+                    document.getElementById('statToday').innerText = pCount;
+                    document.getElementById('statPercent').innerText = total > 0 ? ((pCount/total)*100).toFixed(0) + "%" : "0%";
                 });
             });
         }
-        updateDashboard(); // Initial call
+        updateDashboard();
 
         function submitData() {
             const idCode = "AGRI-" + Math.floor(1000 + Math.random() * 9000);
-            const today = new Date();
-            const dateStr = today.getFullYear() + '/' + (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getDate().toString().padStart(2, '0');
-
             const student = {
-                idCode,
-                name: document.getElementById('name').value,
-                town: document.getElementById('town').value,
-                age: document.getElementById('age').value,
-                birthday: document.getElementById('birthday').value,
-                district: document.getElementById('district').value,
-                province: document.getElementById('province').value,
-                address: document.getElementById('address').value,
-                nic: document.getElementById('nic').value,
-                motherName: document.getElementById('motherName').value,
-                fatherName: document.getElementById('fatherName').value,
-                isJob: document.getElementById('isJob').value,
-                jobTitle: document.getElementById('jobTitle').value,
-                regDate: dateStr
+                idCode, name: document.getElementById('name').value, whatsapp: document.getElementById('whatsapp').value,
+                town: document.getElementById('town').value, age: document.getElementById('age').value, birthday: document.getElementById('birthday').value,
+                district: document.getElementById('district').value, province: document.getElementById('province').value, address: document.getElementById('address').value,
+                nic: document.getElementById('nic').value, motherName: document.getElementById('motherName').value, fatherName: document.getElementById('fatherName').value,
+                isJob: document.getElementById('isJob').value, jobTitle: document.getElementById('jobTitle').value, regDate: new Date().toLocaleDateString()
             };
-
-            if(!student.name) return alert("නම ඇතුළත් කරන්න!");
-            db.ref('students/' + idCode).set(student).then(() => {
-                alert("Saved Success! ID: " + idCode);
-                updateDashboard();
-                showPage('reviewPage');
-                document.querySelectorAll('#addStudentPage input').forEach(i => i.value = "");
-            });
+            db.ref('students/' + idCode).set(student).then(() => { alert("Saved!"); showPage('reviewPage'); });
         }
 
-        db.ref('students').on('value', (snap) => {
-            let rows = "";
-            snap.forEach((child) => {
-                const s = child.val();
-                rows += `<tr><td><span class="id-pill" onclick="viewProfile('${s.idCode}')">${s.idCode}</span></td><td><b>${s.name}</b></td><td>${s.district}</td><td>${s.nic}</td><td>Active</td></tr>`;
-            });
-            document.getElementById('tableBody').innerHTML = rows;
+        db.ref('students').on('value', snap => {
+            let r = ""; snap.forEach(c => { const s = c.val(); r += `<tr><td><span class="id-pill" onclick="viewProfile('${s.idCode}')">${s.idCode}</span></td><td><b>${s.name}</b></td><td>${s.district}</td><td>${s.nic}</td><td>Active</td></tr>`; });
+            document.getElementById('tableBody').innerHTML = r;
         });
 
         let currentAtt = {};
         function loadAttendanceList() {
-            db.ref('students').once('value', (snap) => {
-                let html = ""; let i = 1;
-                snap.forEach(child => {
-                    const s = child.val();
-                    html += `<div class="att-item"><span><b>${i++}.</b> ${s.name}</span><div class="att-btns"><button class="att-btn btn-p" id="p-${s.idCode}" onclick="markAtt('${s.idCode}','P')">P</button><button class="att-btn btn-a" id="a-${s.idCode}" onclick="markAtt('${s.idCode}','A')">A</button></div></div>`;
-                });
-                document.getElementById('attendanceList').innerHTML = html;
+            db.ref('students').once('value', snap => {
+                let h = ""; snap.forEach(c => { const s = c.val(); h += `<div class="att-item"><span>${s.name}</span><div class="att-btns"><button class="att-btn btn-p" id="p-${s.idCode}" onclick="markAtt('${s.idCode}','P')">P</button><button class="att-btn btn-a" id="a-${s.idCode}" onclick="markAtt('${s.idCode}','A')">A</button></div></div>`; });
+                document.getElementById('attendanceList').innerHTML = h;
             });
         }
-
         function markAtt(id, status) {
             currentAtt[id] = status;
             document.getElementById('p-'+id).className = 'att-btn btn-p ' + (status==='P'?'active':'');
             document.getElementById('a-'+id).className = 'att-btn btn-a ' + (status==='A'?'active':'');
         }
-
         function saveAttendance() {
-            const date = document.getElementById('attDate').value;
-            if(!date) return alert("දිනය තෝරන්න!");
-            db.ref('attendance/' + date).set(currentAtt).then(() => {
-                alert("Attendance Saved!");
-                updateDashboard();
-            });
+            const d = document.getElementById('attDate').value;
+            if(!d) return alert("Select Date");
+            db.ref('attendance/' + d).set(currentAtt).then(() => { alert("Saved!"); updateDashboard(); });
         }
 
         function fetchReport() {
-            const date = document.getElementById('reportDate').value;
-            db.ref('students').once('value', (stdSnap) => {
-                db.ref('attendance/' + date).once('value', (attSnap) => {
-                    const attData = attSnap.val() || {};
-                    let rows = "";
-                    stdSnap.forEach(child => {
-                        const s = child.val();
-                        const st = attData[s.idCode];
-                        const stHtml = st === 'P' ? '<span class="status-p">PRESENT</span>' : (st === 'A' ? '<span class="status-a">ABSENT</span>' : 'Not Marked');
-                        rows += `<tr><td><span class="id-pill" onclick="viewProfile('${s.idCode}')">${s.idCode}</span></td><td><b>${s.name}</b></td><td>${s.nic}</td><td>${stHtml}</td></tr>`;
-                    });
-                    document.getElementById('reportTableBody').innerHTML = rows;
+            const d = document.getElementById('reportDate').value;
+            db.ref('students').once('value', stds => {
+                db.ref('attendance/' + d).once('value', att => {
+                    const data = att.val() || {}; let r = "";
+                    stds.forEach(c => { const s = c.val(); const st = data[s.idCode]; const html = st==='P'?'<span class="status-p">PRESENT</span>':(st==='A'?'<span class="status-a">ABSENT</span>':'None'); r += `<tr><td>${s.idCode}</td><td>${s.name}</td><td>${s.nic}</td><td>${html}</td></tr>`; });
+                    document.getElementById('reportTableBody').innerHTML = r;
                 });
             });
         }
 
         function loadSummary() {
-            db.ref('students').once('value', (stdSnap) => {
-                db.ref('attendance').once('value', (attSnap) => {
-                    const allAtt = attSnap.val() || {};
-                    const totalSess = Object.keys(allAtt).length;
-                    let rows = "";
-                    stdSnap.forEach(child => {
-                        const s = child.val();
-                        let p = 0; let a = 0;
-                        Object.values(allAtt).forEach(day => { if(day[s.idCode]==='P') p++; else if(day[s.idCode]==='A') a++; });
-                        const pct = totalSess > 0 ? ((p / totalSess) * 100).toFixed(1) : 0;
-                        const col = pct >= 75 ? "#14a800" : (pct >= 50 ? "#e67e22" : "#ff4d4d");
-                        rows += `<tr><td><span class="id-pill" onclick="viewProfile('${s.idCode}')">${s.idCode}</span></td><td><b>${s.name}</b></td><td>${p}</td><td>${a}</td><td><span class="percent-tag" style="color:${col}">${pct}%</span></td></tr>`;
+            db.ref('students').once('value', stds => {
+                db.ref('attendance').once('value', atts => {
+                    const all = atts.val() || {}; const totalD = Object.keys(all).length; let r = "";
+                    stds.forEach(c => {
+                        const s = c.val(); let p=0, a=0;
+                        Object.values(all).forEach(day => { if(day[s.idCode]==='P') p++; else if(day[s.idCode]==='A') a++; });
+                        const pct = totalD > 0 ? ((p/totalD)*100).toFixed(1) : 0;
+                        r += `<tr><td>${s.idCode}</td><td>${s.name}</td><td>${p}</td><td>${a}</td><td><span class="percent-tag">${pct}%</span></td></tr>`;
                     });
-                    document.getElementById('summaryTableBody').innerHTML = rows;
+                    document.getElementById('summaryTableBody').innerHTML = r;
                 });
             });
         }
 
-        function viewProfile(idCode) {
-            showPage('profilePage');
-            db.ref('students/' + idCode).once('value', snap => {
-                const s = snap.val();
-                db.ref('attendance').once('value', attSnap => {
-                    const allAtt = attSnap.val() || {};
-                    let attRows = "";
-                    Object.keys(allAtt).forEach(date => {
-                        const status = allAtt[date][idCode];
-                        if(status) attRows += `<tr><td>${date}</td><td>${status === 'P' ? '<b style="color:green">PRESENT</b>' : '<b style="color:red">ABSENT</b>'}</td></tr>`;
-                    });
+        function toggleAddModule() { const f = document.getElementById('addModuleForm'); f.style.display = f.style.display==='none'?'block':'none'; }
+        function saveModule() {
+            const m = { code: document.getElementById('mCode').value, name: document.getElementById('mName').value, theory: document.getElementById('mTheory').value, practical: document.getElementById('mPractical').value };
+            db.ref('timetable').push(m).then(() => { toggleAddModule(); loadTimetable(); });
+        }
+        function loadTimetable() {
+            db.ref('timetable').on('value', snap => {
+                let r = ""; let i = 1; snap.forEach(c => { const m = c.val(); r += `<tr><td>${i++}</td><td>${m.code}</td><td>${m.name}</td><td>${m.theory}</td><td>${m.practical}</td><td><button class="del-btn" onclick="db.ref('timetable/${c.key}').remove()">Del</button></td></tr>`; });
+                document.getElementById('timetableBody').innerHTML = r;
+            });
+        }
 
-                    document.getElementById('profileContent').innerHTML = `
-                        <div class="profile-header"><div class="profile-avatar">${s.name.charAt(0)}</div>
-                            <div><h2 style="margin:0">${s.name}</h2><span>${s.idCode} | ${s.nic}</span></div>
-                        </div>
-                        <div class="profile-body">
-                            <div class="info-grid">
-                                <div class="info-item"><h4>Age</h4><p>${s.age || '-'}</p></div>
-                                <div class="info-item"><h4>Birthday</h4><p>${s.birthday || '-'}</p></div>
-                                <div class="info-item"><h4>Town</h4><p>${s.town || '-'}</p></div>
-                                <div class="info-item"><h4>District</h4><p>${s.district || '-'}</p></div>
-                                <div class="info-item"><h4>Province</h4><p>${s.province || '-'}</p></div>
-                                <div class="info-item"><h4>Address</h4><p>${s.address || '-'}</p></div>
-                                <div class="info-item"><h4>Mother's Name</h4><p>${s.motherName || '-'}</p></div>
-                                <div class="info-item"><h4>Father's Name</h4><p>${s.fatherName || '-'}</p></div>
-                                <div class="info-item"><h4>Doing Job?</h4><p>${s.isJob || '-'}</p></div>
-                                <div class="info-item"><h4>Job Title</h4><p>${s.jobTitle || '-'}</p></div>
-                                <div class="info-item"><h4>Registration Date</h4><p>${s.regDate || '-'}</p></div>
-                            </div>
-                            <h3>Attendance History</h3>
-                            <div class="table-wrap"><table><thead><tr><th>Date</th><th>Status</th></tr></thead><tbody>${attRows || '<tr><td colspan="2">No records</td></tr>'}</tbody></table></div>
-                        </div>`;
-                });
+        function viewProfile(id) {
+            showPage('profilePage');
+            db.ref('students/' + id).once('value', snap => {
+                const s = snap.val();
+                const waLink = `https://wa.me/${s.whatsapp}?text=Hi ${s.name}, Your ID is ${s.idCode} You are warmly welcomed to the Agri Section course!
+Please follow and attend your course according to the timetable provided to you.
+Thank you,
+Agri Section`;
+                document.getElementById('profileContent').innerHTML = `
+                    <div class="profile-header"><div class="profile-avatar">${s.name[0]}</div>
+                    <div><h2 style="margin:0">${s.name}</h2><span>${s.idCode}</span><br><a href="${waLink}" target="_blank" class="wa-btn">Send ID via WhatsApp</a></div></div>
+                    <div class="profile-body"><div class="info-grid">
+                    <div class="info-item"><h4>Full Name</h4><p>${s.name}</p></div><div class="info-item"><h4>WhatsApp</h4><p>${s.whatsapp}</p></div>
+                    <div class="info-item"><h4>Town</h4><p>${s.town}</p></div><div class="info-item"><h4>Age</h4><p>${s.age}</p></div>
+                    <div class="info-item"><h4>Birthday</h4><p>${s.birthday}</p></div><div class="info-item"><h4>District</h4><p>${s.district}</p></div>
+                    <div class="info-item"><h4>Province</h4><p>${s.province}</p></div><div class="info-item"><h4>Address</h4><p>${s.address}</p></div>
+                    <div class="info-item"><h4>NIC</h4><p>${s.nic}</p></div><div class="info-item"><h4>Mother</h4><p>${s.motherName}</p></div>
+                    <div class="info-item"><h4>Father</h4><p>${s.fatherName}</p></div><div class="info-item"><h4>Job</h4><p>${s.isJob}</p></div>
+                    <div class="info-item"><h4>Job Title</h4><p>${s.jobTitle || '-'}</p></div><div class="info-item"><h4>Reg Date</h4><p>${s.regDate}</p></div>
+                    </div></div>`;
             });
         }
     </script>
